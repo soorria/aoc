@@ -4,4 +4,7 @@ day="$1"
 
 cd $day
 
-echo main.exs | entr -c -s 'elixir main.exs'
+# pass the rest of the arguments to the script
+shift
+
+echo 'main.exs' | entr -c -s "elixir main.exs $*"
