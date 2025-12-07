@@ -40,6 +40,17 @@ defmodule Solution do
     end
   end
 
+  def apply_ops(enum, ops) do
+    enum
+    |> Stream.zip(ops)
+    |> Stream.map(fn {nums, op} ->
+      case op do
+        "+" -> Enum.sum(nums)
+        "*" -> Enum.product(nums)
+      end
+    end)
+  end
+
   def part1(input) do
     [ops | nums] = input |> String.split("\n") |> Enum.reverse()
 
@@ -58,19 +69,8 @@ defmodule Solution do
     end)
     |> Enum.zip()
     |> Enum.map(fn nums -> Tuple.to_list(nums) end)
-    |> Enum.zip(ops)
-    |> Enum.map(fn {nums, op} ->
-      case op do
-        "+" -> Enum.sum(nums)
-        "*" -> Enum.product(nums)
-      end
-    end)
+    |> apply_ops(ops)
     |> Enum.sum()
-  end
-
-  def cephalopod_nums(chars) do
-    chars
-    |> Enum.to_list()
   end
 
   def part2(input) do
@@ -103,16 +103,10 @@ defmodule Solution do
     |> Stream.map(fn nums_as_chars ->
       nums_as_chars
       |> Stream.map(fn chars ->
-        chars |> Enum.reverse() |> Enum.join("") |> String.trim() |> String.to_integer()
+        chars |> Enum.reverse() |> Enum.join() |> String.trim() |> String.to_integer()
       end)
     end)
-    |> Stream.zip(ops)
-    |> Stream.map(fn {nums, op} ->
-      case op do
-        "+" -> Enum.sum(nums)
-        "*" -> Enum.product(nums)
-      end
-    end)
+    |> apply_ops(ops)
     |> Enum.sum()
   end
 end
